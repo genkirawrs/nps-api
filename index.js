@@ -1,10 +1,9 @@
 const apiKey = "5grHcO2A2KcD957WgQNs8YMxcNKAVcZmwfAg8p5E";
 
 function displayResults(results){
-    
     if(results.total < 1){
         //if no results returned, display an error
-        $('#search-error').text(`Sorry, no parks found. Please try another state`);
+        $('#search-progress').text('Sorry, no parks found. Please try another state');
     }else{
         const parks = results.data.map(function(entry){
             let physicalLocation='';
@@ -36,14 +35,13 @@ function displayResults(results){
             </ul>
             </li>`;
         });
-
-        $('#results-list').html(`<li><h2>Search Results</h2></li>${parks.join("")}`);
         //clean up search in progress text
         $('#search-progress').text('');
+        $('#results-list').html(`<li><h2>Search Results</h2></li>${parks.join("")}`);
+    }
+
         //re-enable the form so visitor can search again
         $('#nps-form :input').prop("disabled",false);  
-
-    }
   }
   
 function formatQueryString(parameters){
@@ -60,13 +58,13 @@ function getParksData(states,quantity=10){
 
     const formattedParameters = formatQueryString(queryParams);
     const url = `https://api.nps.gov/api/v1/parks?${formattedParameters}`;
-    
+    console.log(url);
     fetch(url)
         .then(response => {
             if(response.ok){
                 return response.json();
             }
-            throw new Error(response.statusText);
+            throw new Error('hm');
         })
         .then(responseJson => displayResults(responseJson))
         .catch(error => {
