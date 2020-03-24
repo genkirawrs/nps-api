@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An National Park Search API">
+    <title>National Park Services Search API</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+<body>
+    <h1>National Parks Finder</h1>
+
+    <form id="nps-form">
+        <label for="state-list">Enter a comma separated list of states to search for</label>
+        <br>
+        <input type="text" id="state-list" value="" placeholder="ie: ca,ny,wa" required>
+        <br><br><br>
+        <label for="max-results">Enter number of parks to return:</label>
+        <br>
+        <input type="number" id="max-results" value="10" min="1">
+        <br><br>
+        <button id="submit-button" type="submit">Search for Parks</button>
+    </form>
+
+    <p id="search-progress"></p>
+    <section id="search-results">
+        <ul id="results-list">
+        </ul>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
