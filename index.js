@@ -1,11 +1,14 @@
 const apiKey = "5grHcO2A2KcD957WgQNs8YMxcNKAVcZmwfAg8p5E";
 
 function displayResults(results){
+    
     if(results.total < 1){
+        //if no results returned, display an error
         $('#search-error').text(`Sorry, no parks found. Please try another state`);
     }else{
         const parks = results.data.map(function(entry){
             let physicalLocation='';
+            //look for physical address lines
             $.each(entry.addresses,function(){
                 let addressType = this.type;
                 if(addressType.toLowerCase() === 'physical'){
@@ -23,6 +26,7 @@ function displayResults(results){
                     </li>`;
                 }
             });
+
             return `<li>
             ${entry.name}
             <ul class="park-info">
@@ -32,9 +36,11 @@ function displayResults(results){
             </ul>
             </li>`;
         });
-        $('#results-list').html(`<li><h2>Search Results</h2></li>${parks.join("")}`);
 
+        $('#results-list').html(`<li><h2>Search Results</h2></li>${parks.join("")}`);
+        //clean up search in progress text
         $('#search-progress').text('');
+        //re-enable the form so visitor can search again
         $('#nps-form :input').prop("disabled",false);  
 
     }
@@ -42,7 +48,6 @@ function displayResults(results){
   
 function formatQueryString(parameters){
     const paramString = Object.keys(parameters).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-
     return paramString.join('&');
 }
 
@@ -72,14 +77,16 @@ function getParksData(states,quantity=10){
   function initParksFormListener() {
     $('#nps-form').submit(function(event) {
       event.preventDefault();
+      //disable form while we're doing a search
       $('#nps-form :input').prop("disabled",true);  
+
       //clear any previous lists/messages
       $('#search-progress').text('searching!');
       $('#results-list').html('');
 
-
       const stateList = $('#state-list').val().toLowerCase();
       const returnQty = $('#max-results').val();
+
       getParksData(stateList,returnQty);
     });
   }
